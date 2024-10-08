@@ -6,10 +6,6 @@ loadEnv(process.env.NODE_ENV, process.cwd());
 
 const backendUrl = process.env.RAILWAY_PUBLIC_DOMAIN_VALUE || 'http://localhost:9000';
 
-const plugins = [
-  // 'medusa-fulfillment-manual'
-];
-
 const modules = {
   [Modules.AUTH]: {
     resolve: '@medusajs/auth',
@@ -37,7 +33,7 @@ const modules = {
         }
       ]
     }
-  },
+  }
 };
 
 // Redis configuration
@@ -49,33 +45,6 @@ if (process.env.REDIS_URL) {
       redisUrl: process.env.REDIS_URL
     }
   };
-}
-
-// Check if MeiliSearch environment variables are set
-const meilisearchHost = process.env.MEILISEARCH_HOST;
-const meilisearchApiKey = process.env.MEILISEARCH_ADMIN_API_KEY; // trigger build
-
-const meilisearchConfigured = meilisearchHost && meilisearchApiKey;
-if (meilisearchConfigured) {
-  // console.log('MeiliSearch host and API key found, enabling MeiliSearch plugin');
-  // modules[Modules.SEARCH] = {
-  //   resolve: 'medusa-plugin-meilisearch',
-  //   options: {
-  //     config: {
-  //       host: meilisearchHost,
-  //       apiKey: meilisearchApiKey
-  //     },
-  //     settings: {
-  //       products: {
-  //         indexSettings: {
-  //           searchableAttributes: ['title', 'description', 'variant_sku'],
-  //           displayedAttributes: ['title', 'description', 'variant_sku', 'thumbnail', 'handle']
-  //         },
-  //         primaryKey: 'id'
-  //       }
-  //     }
-  //   }
-  // };
 }
 
 // Stripe payment provider
@@ -125,6 +94,35 @@ if (sendgridConfigured) {
   };
 }
 
+// Initialize plugins array
+const plugins = [];
+
+// Add MeiliSearch plugin if environment variables are set
+const meilisearchHost = process.env.MEILISEARCH_HOST;
+const meilisearchApiKey = process.env.MEILISEARCH_ADMIN_API_KEY;
+
+if (meilisearchHost && meilisearchApiKey) {
+  console.log('MeiliSearch host and API key found, enabling MeiliSearch plugin');
+  plugins.push({
+    resolve: 'medusa-plugin-meilisearch',
+    options: {
+      config: {
+        host: meilisearchHost,
+        apiKey: meilisearchApiKey
+      },
+      settings: {
+        products: {
+          indexSettings: {
+            searchableAttributes: ['title', 'description', 'variant_sku'],
+            displayedAttributes: ['title', 'description', 'variant_sku', 'thumbnail', 'handle']
+          },
+          primaryKey: 'id'
+        }
+      }
+    }
+  });
+}
+
 /** @type {import('@medusajs/medusa').ConfigModule['projectConfig']} */
 const projectConfig = {
   http: {
@@ -141,8 +139,8 @@ const projectConfig = {
 
 const completeConfig = {
   projectConfig,
-  plugins,
   modules,
+  plugins,
   admin: {
     ...!isDev && { backendUrl }
   }
