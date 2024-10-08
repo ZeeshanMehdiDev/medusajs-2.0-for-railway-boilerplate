@@ -53,7 +53,7 @@ if (process.env.REDIS_URL) {
 
 // Check if MeiliSearch environment variables are set
 const meilisearchHost = process.env.MEILISEARCH_HOST;
-const meilisearchApiKey = process.env.MEILISEARCH_ADMIN_API_KEY;
+const meilisearchApiKey = process.env.MEILISEARCH_ADMIN_API_KEY; // trigger build
 
 const meilisearchConfigured = meilisearchHost && meilisearchApiKey;
 if (meilisearchConfigured) {
