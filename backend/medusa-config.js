@@ -57,25 +57,25 @@ const meilisearchApiKey = process.env.MEILISEARCH_ADMIN_API_KEY; // trigger buil
 
 const meilisearchConfigured = meilisearchHost && meilisearchApiKey;
 if (meilisearchConfigured) {
-  console.log('MeiliSearch host and API key found, enabling MeiliSearch plugin');
-  modules[Modules.SEARCH] = {
-    resolve: 'medusa-plugin-meilisearch',
-    options: {
-      config: {
-        host: meilisearchHost,
-        apiKey: meilisearchApiKey
-      },
-      settings: {
-        products: {
-          indexSettings: {
-            searchableAttributes: ['title', 'description', 'variant_sku'],
-            displayedAttributes: ['title', 'description', 'variant_sku', 'thumbnail', 'handle']
-          },
-          primaryKey: 'id'
-        }
-      }
-    }
-  };
+  // console.log('MeiliSearch host and API key found, enabling MeiliSearch plugin');
+  // modules[Modules.SEARCH] = {
+  //   resolve: 'medusa-plugin-meilisearch',
+  //   options: {
+  //     config: {
+  //       host: meilisearchHost,
+  //       apiKey: meilisearchApiKey
+  //     },
+  //     settings: {
+  //       products: {
+  //         indexSettings: {
+  //           searchableAttributes: ['title', 'description', 'variant_sku'],
+  //           displayedAttributes: ['title', 'description', 'variant_sku', 'thumbnail', 'handle']
+  //         },
+  //         primaryKey: 'id'
+  //       }
+  //     }
+  //   }
+  // };
 }
 
 // Stripe payment provider
