@@ -51,6 +51,33 @@ if (process.env.REDIS_URL) {
   };
 }
 
+// Check if MeiliSearch environment variables are set
+const meilisearchHost = process.env.MEILISEARCH_HOST;
+const meilisearchApiKey = process.env.MEILISEARCH_API_KEY;
+
+const meilisearchConfigured = meilisearchHost && meilisearchApiKey;
+if (meilisearchConfigured) {
+  console.log('MeiliSearch host and API key found, enabling MeiliSearch plugin');
+  modules[Modules.SEARCH] = {
+    resolve: 'medusa-plugin-meilisearch',
+    options: {
+      config: {
+        host: meilisearchHost,
+        apiKey: meilisearchApiKey
+      },
+      settings: {
+        products: {
+          indexSettings: {
+            searchableAttributes: ['title', 'description', 'variant_sku'],
+            displayedAttributes: ['title', 'description', 'variant_sku', 'thumbnail', 'handle']
+          },
+          primaryKey: 'id'
+        }
+      }
+    }
+  };
+}
+
 // Stripe payment provider
 const stripeApiKey = process.env.STRIPE_API_KEY;
 const stripeWebhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
