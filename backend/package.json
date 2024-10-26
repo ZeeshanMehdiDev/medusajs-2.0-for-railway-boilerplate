@@ -16,7 +16,7 @@
     "build": "medusa build && node ./script/postbuild.js",
     "seed": "medusa exec ./src/scripts/seed.ts",
     "seed:once": "init-backend",
-    "start": "medusa start --verbose",
+    "start": "medusa start",
     "dev": "medusa develop"
   },
   "dependencies": {

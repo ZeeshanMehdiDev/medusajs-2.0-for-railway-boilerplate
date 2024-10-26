@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import { MedusaRequest, MedusaResponse } from "@medusajs/framework";
 import { IApiKeyModuleService } from '@medusajs/types';
 import { Modules } from '@medusajs/utils';
